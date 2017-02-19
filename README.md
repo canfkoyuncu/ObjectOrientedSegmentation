@@ -25,3 +25,8 @@ The function `objectOrientedSegmentation` takes eight inputs and outputs the seg
 
 Example use:
       ```segmRes = objectOrientedSegmentation ('hepg2f_1.jpg', 10, 4000, 5, 20, 0.1, 350, 3);```
+      
+Example output:
+
+<img src="./hepg2f_1.jpg" title="Example fluorescence image" width=300 />
+<img src="./hepg2f_1_res.tiff" title="Segmentation results" width=300 />
