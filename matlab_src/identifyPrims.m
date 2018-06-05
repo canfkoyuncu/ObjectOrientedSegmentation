@@ -6,7 +6,12 @@ function [right, left, top, bottom] = identifyPrims (gray, thickness, lengtTh, c
     top(mask==0)    = 0;
     bottom(mask==0) = 0;
     
-    [right, left, top, bottom] = takeOuterPixels (double(right), double(left), double(top), double(bottom), thickness);
+%     [right, left, top, bottom] = takeOuterPixels (double(right), double(left), double(top), double(bottom), thickness);
+    
+	right = takeOneSideBoundary(right, 1, thickness);
+	left = takeOneSideBoundary(left, 2, thickness);
+	top = takeOneSideBoundary(top, 3, thickness);
+	bottom = takeOneSideBoundary(bottom, 4, thickness);
     
     [right,     nx2] = bwlabeln(right, connectivity);
     [left,      nx1] = bwlabeln(left, connectivity);
@@ -75,6 +80,61 @@ function prims = elimSmallPrims (prims, th, side)
             prims(prims == i) = 0;
         elseif side == 2 && t(3) < th %% top or bottom prims
             prims(prims == i) = 0;
+        end
+    end
+end
+
+function processed = takeOneSideBoundary (prims, sideFlag, thickness)
+    processed = zeros(size(prims));
+
+    for i=1:size(prims,1)
+        for j=1:size(prims,2)
+            if prims(i,j) > 0
+                isBorder = 0;
+                for k=0:thickness
+                    if sideFlag == 1 % Right
+                        i2 = i;
+                        j2 = j + k;
+                    elseif sideFlag == 2 % Left
+                        i2 = i;
+                        j2 = j - k;
+                        
+                    elseif sideFlag == 3 % Top
+                        i2 = i - k;
+                        j2 = j;
+                    else
+                        i2 = i + k;
+                        j2 = j;
+                    end
+                    if sideFlag == 1 && j2 > size(prims,2)
+                        isBorder = 1;
+                        break;
+                    end
+                    if sideFlag == 2 && j2 < 1
+                        isBorder = 1;
+                        break;
+                    end
+                    if sideFlag == 3 && i2 < 1
+                        isBorder = 1;
+                        break;
+                    end
+                    if sideFlag == 4 && i2 >= size(prims,1)
+                        isBorder = 1;
+                        break;
+                    end
+                    if prims(i2,j2) ~= prims(i,j)
+                        isBorder = 1;
+                        break;
+                    end
+                end
+                if isBorder == 1
+                    processed(i,j) = prims(i,j);
+                else
+                    processed(i,j) = 0;
+                end
+            else
+                processed(i,j) = 0;
+            end
         end
     end
 end

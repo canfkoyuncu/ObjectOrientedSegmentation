@@ -67,7 +67,7 @@ function segmRes = objectOrientedSegmentation (inputName, tsize, nslic, ...
     mask = im2bw(L, graythresh(L));
 
 % %     subregions
-    [newSlic, ~]  = slicmex(im, nslic, kslic); 
+    [newSlic, ~]    = slicmex(im, nslic, kslic); 
     newSlic         = double(newSlic) + 1;
     newSlic(mask==0)= 0;
     newSlic         = relabelImage(newSlic);
@@ -90,6 +90,22 @@ function segmRes = objectOrientedSegmentation (inputName, tsize, nslic, ...
         tops    = cat(3, tops, top);
         bottoms = cat(3, bottoms, bottom);
     end
-    segmRes = postProcessing (newSlic, tarea, mask, rights, lefts, tops, bottoms);
-    segmRes = modeFilter2D(segmRes, rfilter, 1);
+    segmRes = postProcessing (newSlic, tarea, mask, rights, lefts, tops, bottoms, rfilter);
+end
+
+function labeled = relabelImage(map)
+    labels = unique(nonzeros(map))';
+    label_map = zeros(1, max(labels));
+    for label = labels
+        ind = find(labels == label);
+        label_map(label) = ind(1);
+    end
+    labeled = zeros(size(map));
+    for i=1:size(labeled,1)
+        for j=1:size(labeled,2)
+            if map(i,j) > 0
+                labeled(i,j) = label_map(map(i,j));
+            end
+        end
+    end
 end
