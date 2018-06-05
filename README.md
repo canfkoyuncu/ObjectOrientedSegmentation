@@ -3,7 +3,7 @@
 This work introduces a new nucleus segmentation algorithm that relies on using gradient information not at the pixel-level but at the object-level. To this end, it proposes to decompose an image into smaller homogeneous subregions, define edge-objects at four different orientations to encode the gradient information at the object-level, and devise a merging step, in which the edge-objects vote for subregion pairs along their orientations and the pairs are iteratively merged if they get sufficient votes from multiple orientations.
 
 NOTE: The following source codes and executable are provided for research purposes only. The authors have no responsibility for any consequences of use of these source codes and the executable. If you use any part of these codes, please cite the following paper.
->C. F. Koyuncu, R. C. Atalay, and C. Gunduz-Demir, "Object Oriented Segmentation of Cell Nuclei in Fluorescence Microscopy Images," submitted to IEEE Trans. Med. Imag.
+>C. F. Koyuncu, R. C. Atalay, and C. Gunduz-Demir, "Object Oriented Segmentation of Cell Nuclei in Fluorescence Microscopy Images," revision process in Cytometry Part A.
 
 If that is YOUR FIRST USE of this program run `makeAll` file once. This file produces a Matlab executables and adds necessary folders into Matlab path.
 
