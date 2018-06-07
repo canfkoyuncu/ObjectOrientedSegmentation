@@ -30,15 +30,11 @@
 %   further questions.
 % 
 % 
-%   This function takes eight inputs and outputs the segmentation results
+%   This function takes 5 inputs and outputs the segmentation results
 %   inputName:  Image filename (an RGB image)
 %               -----> Edge-object definition <-----
 %   tsize:      Minimum height/width for a component to be an edge-object
-%               -----> Sub-region partitioning <-----
-%   nslic:      Expected number of superpixels of the SLIC algorithm
-%   kslic:      Spatiality constant of the SLIC algorithm for adjusting 
-%               the weight of L, a, b values over coordinates in clustering
-%               -----> Subregion merging <----- 
+%                -----> Subregion merging <----- 
 %   dmax:       Maximum distance within which an edge-object can vote for 
 %               a subregion
 %   tvote:      Minimum score that a subregion pair should take from at 
@@ -47,7 +43,14 @@
 %               merging
 %               -----> Postprocessing <----- 
 %   tarea:      Minimum area for a subregion to be a nucleus
-%   rfilter:    Radius of a majority 
+% 
+% Internal parameters:
+%               -----> Sub-region partitioning <-----
+%   nslic:      Expected number of superpixels of the SLIC algorithm
+%   kslic:      Spatiality constant of the SLIC algorithm for adjusting 
+%               the weight of L, a, b values over coordinates in clustering
+%               -----> Postprocessing <----- 
+%  rfilter:     Radius of a majority 
 % 
 % 
 % Example use:
