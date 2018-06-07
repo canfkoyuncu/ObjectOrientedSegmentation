@@ -50,15 +50,19 @@
 %   rfilter:    Radius of a majority 
 % 
 % 
-%   Example use:
-%       segmRes = objectOrientedSegmentation ('hepg2f_1.jpg', 10, 4000, ...
-%                                                      5, 20, 0.1, 350, 3);
+% Example use:
+%   segmRes = objectOrientedSegmentation ('hepg2f_1.jpg', 5, 20, 0.1, 400);
 % 
 %-------------------------------------------------------------------------%
 %-------------------------------------------------------------------------%
 
-function segmRes = objectOrientedSegmentation (inputName, tsize, nslic, ...
-                                        kslic, dmax, tvote, tarea, rfilter)
+function segmRes = objectOrientedSegmentation (inputName, tsize, dmax, tvote, tarea)
+
+% % Internal parameters
+    nslic = 4000;
+    kslic = 5;
+    rfilter = 3;
+
     im = imread (inputName);
     [L, ~, ~] = RGB2Lab(im);
 
@@ -77,12 +81,13 @@ function segmRes = objectOrientedSegmentation (inputName, tsize, nslic, ...
     otsuKs       = 0.5:0.5:2.0;
     rights       = []; lefts        = [];
     tops         = []; bottoms      = [];
+    
     for otsuK = otsuKs
+        
         [right, left, top, bottom] = identifyPrims (L, d, tsize, connectivity, mask, otsuK);
         if otsuK == otsuKs(1)
             newSlic = findSubRegions (newSlic, left, right, top, bottom);
         end
-
         newSlic = objOrientSegm (newSlic, right, left, top, bottom, tvote, dmax, connectivity, 1, tarea);
 
         rights  = cat(3, rights, right);
